@@ -1,0 +1,211 @@
+$!config
+## 设置保存的文件名
+
+$!callback.setFileName($tool.append($mapperName, ".java"))
+$!callback.setSavePath($mapperPath)
+
+#if(!$tableInfo.pkColumn.isEmpty())
+    #set($pk = $tableInfo.pkColumn.get(0))
+#end
+
+#if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}$mapperPackage;
+
+## 导入实体类
+import $!{tableInfo.savePackageName}.$entityPackage.$!{tableInfo.name};
+## 导入EntityExample
+#if($useExample)
+import $!{tableInfo.savePackageName}.$examplePackage.$baseExampleName;
+#end
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
+/**
+* $!{tableInfo.comment}($!{tableInfo.name})表数据库访问层
+*
+* @author $!author
+* @since $!time.currTime()
+*/
+public interface $!{mapperName} {
+
+/**
+* 插入数据
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+int insert($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+
+/**
+* 插入数据，忽略null
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+int insertSelective($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+
+/**
+* 批量插入
+*
+* @param $tool.append($tool.firstLowerCase($!{tableInfo.name}),"List")
+* @return
+*/
+int insertList(List<$!{tableInfo.name}> $tool.append($tool.firstLowerCase($!{tableInfo.name}),"List"));
+
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 根据主键删除
+*
+* @param $pk.name
+* @return
+*/
+int deleteByPrimaryKey($pk.shortType $pk.name);
+#end
+
+/**
+* 根据实体类删除
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+int deleteByEntity($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+
+#if($useExample)
+/**
+* 根据Example删除
+*
+* @param example
+* @return
+*/
+int deleteByExample(EntityExample example);
+#end
+
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 通过主键更新
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+int updateByPrimaryKey($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+#end
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 通过主键更新，忽略null和主键
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+int updateByPrimaryKeySelective($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+#end
+
+#if($useExample)
+/**
+* 通过Example更新
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @param example
+* @return
+*/
+int updateByExample(@Param("$tool.firstLowerCase($!{tableInfo.name})") $!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}), @Param("example") EntityExample example);
+#end
+
+#if($useExample)
+/**
+* 通过Example更新，忽略null
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @param example
+* @return
+*/
+int updateByExampleSelective(@Param("$tool.firstLowerCase($!{tableInfo.name})") $!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}), @Param("example") EntityExample example);
+#end
+
+/**
+* 统计所有记录
+* @return
+*/
+long countRecord();
+
+#if($useExample)
+/**
+* 根据Example计算总数
+*
+* @param example
+* @return
+*/
+long countByExample(EntityExample example);
+#end
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 根据主键查找
+*
+* @param $pk.name
+* @return
+*/
+    $!{tableInfo.name} selectByPrimaryKey($pk.shortType $pk.name);
+#end
+
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 通过主键集合查找
+*
+* @param $tool.append($pk.name,"List")
+* @return
+*/
+List<$!{tableInfo.name}> selectByPrimaryKeyList(List<$pk.shortType> $tool.append($pk.name,"List"));
+#end
+
+/**
+* 根据实体查找
+*
+* @param $tool.firstLowerCase($!{tableInfo.name})
+* @return
+*/
+List<$!{tableInfo.name}> selectByEntity($!{tableInfo.name} $tool.firstLowerCase($!{tableInfo.name}));
+
+#if($useExample)
+/**
+* 根据Example查找
+*
+* @param example
+* @return
+*/
+List<$!{tableInfo.name}> selectByExample(EntityExample example);
+#end
+
+#if(!$tableInfo.pkColumn.isEmpty() && $useExample)
+/**
+* 根据Example查找主键
+*
+* @param example
+* @return
+*/
+List<$pk.shortType> selectPrimaryKeyByExample(EntityExample example);
+#end
+
+#if(!$tableInfo.pkColumn.isEmpty())
+/**
+* 有范围限制。offset大时使用
+*
+* @param offset
+* @param limit
+* @return
+*/
+List<$!{tableInfo.name}> selectByLimit(@Param("offset") Long offset,@Param("limit") Integer limit);
+#end
+
+#if($selectSelective && $useExample)
+/**
+* 根据Example查找选择列
+*
+* @param example
+* @return
+*/
+List<$!{tableInfo.name}> selectByExampleSelective(EntityExample example);
+#end
+
+}

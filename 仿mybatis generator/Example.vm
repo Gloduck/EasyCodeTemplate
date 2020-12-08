@@ -1,0 +1,209 @@
+##引入宏定义
+$!define
+$!config
+
+$!callback.setFileName($tool.append($exampleName,".java"))
+$!callback.setSavePath($examplePath)
+
+#setPackageSuffix("$examplePackage")
+
+$!autoImport
+import java.util.List;
+
+public class $exampleName extends $baseExampleName {
+private static final long serialVersionUID = $!tool.serial();
+## 此处保存了一个BaseExample的引用，防止Mybatis使用Example时传的是子类对象，提示没有属性
+private final $baseExampleName example = this;
+
+/**
+* 创建一个新的条件列表
+*
+* @return
+*/
+@Override
+public $exampleName newCriteria() {
+   return ($exampleName) super.newCriteria();
+}
+
+/**
+* 创建一个新的条件列表
+*
+* @return
+*/
+@Override
+public $exampleName or() {
+return ($exampleName) super.newCriteria();
+}
+
+/**
+* 设置限制量
+*
+* @param limit
+* @return
+*/
+@Override
+public $exampleName setLimit(Integer limit) {
+    return ($exampleName) super.setLimit(limit);
+}
+
+/**
+* 设置起始量
+*
+* @param offset
+* @return
+*/
+@Override
+public $exampleName setOffset(Long offset) {
+    return ($exampleName) super.setOffset(offset);
+}
+
+/**
+* 设置是否唯一
+*
+* @param distinct
+* @return
+*/
+@Override
+public $exampleName setDistinct(boolean distinct) {
+    return ($exampleName) super.setDistinct(distinct);
+}
+
+/**
+* 设置当前页数
+* @param current
+* @param perPage
+* @return
+*/
+@Override
+public $exampleName setPage(Integer current, Integer perPage){
+    return ($exampleName) super.setPage(current, perPage);
+}
+
+/**
+* 设置是否倒序
+* @return
+*/
+@Override
+public $exampleName setOrderByDesc() {
+    return ($exampleName) super.setOrderByDesc();
+}
+
+/**
+* 设置排序条件
+* @param clauses
+* @return
+*/
+@Override
+public $exampleName setOrderByClause(String... clauses) {
+    return ($exampleName) super.setOrderByClause(clauses);
+}
+
+@Override
+public $exampleName addStringCondition(String condition){
+    return ($exampleName) super.addStringCondition(condition);
+}
+
+@Override
+public $exampleName addStringCondition(String condition, Object value){
+    return ($exampleName) super.addStringCondition(condition, value);
+}
+
+@Override
+public $exampleName addStringCondition(String condition, Object firstValue, Object secondValue){
+    return ($exampleName) super.addStringCondition(condition, firstValue, secondValue);
+}
+
+#if($selectSelective && $useExample)
+/**
+* 添加选择列名，如果为null默认选择所有
+* @param columns
+* @return
+*/
+@Override
+public $exampleName addSelectColumn(String... columns){
+    return ($exampleName) super.addSelectColumn(columns);
+}
+
+#end
+
+#if($createColumn)
+    #foreach($column in $tableInfo.fullColumn)
+    public static final String $column.obj.name.toUpperCase() = "$column.obj.name";
+    #end
+#end
+
+#foreach($column in $tableInfo.fullColumn)
+
+public $exampleName and$tool.firstUpperCase($column.name)IsNull() {
+addStringCondition("$column.name is null");
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)IsNotNull() {
+addStringCondition("$column.name is not null");
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)EqualTo($column.shortType value){
+addStringCondition("$column.name = ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)NotEqualTo($column.shortType value){
+addStringCondition("$column.name <> ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)BiggerThan($column.shortType value){
+addStringCondition("$column.name > ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)BiggerThanOrEqualTo($column.shortType value){
+addStringCondition("$column.name >= ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)SmallerThan($column.shortType value){
+addStringCondition("$column.name < ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)SmallerThanOrEqualTo($column.shortType value){
+addStringCondition("$column.name <= ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)In(List<$column.shortType> values){
+addStringCondition("$column.name in ", values);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)NotIn(List<$column.shortType> values){
+addStringCondition("$column.name not in ", values);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)Like($column.shortType value){
+addStringCondition("$column.name like ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)NotLike($column.shortType value){
+addStringCondition("$column.name not like ", value);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)Between($column.shortType value1, $column.shortType value2){
+addStringCondition("$column.name between ", value1, value2);
+return this;
+}
+
+public $exampleName and$tool.firstUpperCase($column.name)NotBetween($column.shortType value1, $column.shortType value2){
+addStringCondition("$column.name not between ", value1, value2);
+return this;
+}
+#end
+
+
+}

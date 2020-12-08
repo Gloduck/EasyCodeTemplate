@@ -1,0 +1,46 @@
+## 实体类保存的包名
+## 是否使用Lombok
+#set($useLombok=true)
+## 是否生成GetterSetter方法
+#set($useGetterSetter=false)
+## 实体保存的包名
+#set($entityPackage='entity.po')
+## example保存的包名
+#set($examplePackage='entity.po.example')
+## example后缀
+#set($exampleSuffix='Example')
+## mapper接口保存的包名
+#set($mapperPackage='dao')
+## mapper接口后缀
+#set($mapperSuffix='Mapper')
+## mapperXMl路径：默认路径已经包含/src/main/resources/
+#set($mapperXMLPath='mapper')
+## 是否生成Example(只是会指示是否生成Example相关方法，具体是否生成Example还是看是否勾选了Example)
+#set($useExample=true)
+## 是否添加selectSelective方法(会根据填入的字段选择指定内容。为了提高性能没使用枚举类，请通过约定来约束)，前提是必须开启了useExample
+#set($selectSelective=true)
+## 是否在Example中添加Column内部类，记录所有表字段
+#set($createColumn=true)
+
+
+## 以下内容请不要修改
+## baseExample的名称
+#set($baseExampleName=$tool.append("Entity",$exampleSuffix))
+## 生成的Example的名称
+#set($exampleName=$tool.append($tableInfo.name,$exampleSuffix))
+## mapper接口的名称
+#set($mapperName = $tool.append($tableInfo.name, $mapperSuffix))
+## 生成的Example的保存路径
+#set($examplePath=$tool.append($tableInfo.savePath,"/", $examplePackage.replace(".","/")))
+## Entity的保存路径
+#set($entityPath=$tool.append($tableInfo.savePath,"/", $entityPackage.replace(".","/")))
+## mapper接口的保存路径
+#set($mapperPath=$tool.append($tableInfo.savePath,"/", $mapperPackage.replace(".","/")))
+## Entity的完整包名
+#set($importEntityPackage=$tool.append($!{tableInfo.savePackageName},".",$entityPackage,".",$!{tableInfo.name}))
+## Mapper的完整包名
+#set($importMapperPackage=$tool.append($!{tableInfo.savePackageName},".","$mapperPackage",".",$!{tableInfo.name},$mapperSuffix))
+## Example完整包名
+#set($importExamplePackage=$tool.append($!{tableInfo.savePackageName},".","$examplePackage",".",$!{tableInfo.name},$exampleSuffix))
+## BaseExample完整包名
+#set($importBaseExamplePackage=$tool.append($!{tableInfo.savePackageName},".","$examplePackage",".","Entity",$exampleSuffix))

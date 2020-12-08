@@ -1,0 +1,388 @@
+$!define
+$!config
+## 设置文件名
+$!callback.setFileName($tool.append($baseExampleName,".java"))
+## 文件的保存路径。
+$!callback.setSavePath($examplePath)
+##设置导包。和保存路径相对应
+#setPackageSuffix("$examplePackage")
+
+
+import java.util.LinkedList;
+import java.util.List;
+
+
+/**
+* @author $author
+*/
+public class $baseExampleName {
+/**
+* 排序条件
+*/
+protected String orderByClause;
+
+/**
+* 是否倒序
+*/
+protected boolean desc;
+
+/**
+* 条件列表
+*/
+protected List<Criteria> criterias;
+
+    #if($selectSelective && $useExample)
+        /**
+        * 选择列列表
+        */
+        protected List<String> selectColumns;
+    #end
+
+    /**
+    * 当前正在操作的条件
+    */
+    protected Criteria currentCriteria;
+
+    /**
+    * 是否去重
+    */
+    protected boolean distinct;
+
+    /**
+    * 限制量
+    */
+    protected Integer limit;
+    /**
+    * 偏移量
+    */
+    protected Long offset;
+
+
+
+    public $baseExampleName() {
+    this.criterias = new LinkedList<>();
+    }
+
+
+    /**
+    * 创建一个新的条件列表
+    *
+    * @return
+    */
+    public $baseExampleName newCriteria() {
+    Criteria criteria = new Criteria();
+    this.criterias.add(criteria);
+    this.currentCriteria = criteria;
+    return this;
+    }
+
+    /**
+    * 创建一个新的条件列表
+    *
+    * @return
+    */
+    public $baseExampleName or() {
+    return newCriteria();
+    }
+
+    /**
+    * 设置限制量
+    *
+    * @param limit
+    * @return
+    */
+    public $baseExampleName setLimit(Integer limit) {
+    this.limit = limit;
+    return this;
+    }
+
+    /**
+    * 设置起始量
+    *
+    * @param offset
+    * @return
+    */
+    public $baseExampleName setOffset(Long offset) {
+    this.offset = offset;
+    return this;
+    }
+
+    /**
+    * 设置是否唯一
+    *
+    * @param distinct
+    * @return
+    */
+    public $baseExampleName setDistinct(boolean distinct) {
+    this.distinct = distinct;
+    return this;
+    }
+
+    /**
+    * 设置当前页数
+    * @param current
+    * @param perPage
+    * @return
+    */
+    public $baseExampleName setPage(Integer current, Integer perPage){
+    if(current == null || current < 1 || perPage == null || perPage < 1){
+    throw new IllegalArgumentException("Argument invalid");
+    }
+    long offset = (current.longValue() - 1) * perPage;
+    this.offset = offset;
+    this.limit = perPage;
+    return this;
+    }
+
+    /**
+    * 设置是否倒序
+    * @return
+    */
+    public $baseExampleName setOrderByDesc() {
+    this.desc = true;
+    return this;
+    }
+
+    /**
+    * 设置排序条件
+    * @param clauses
+    * @return
+    */
+    public $baseExampleName setOrderByClause(String... clauses) {
+    if (clauses != null) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("order by ");
+    int length = clauses.length - 1;
+    for (int i = 0; i < length; i++) {
+    builder.append(clauses[i]);
+    builder.append(" , ");
+    }
+    builder.append(clauses[length]);
+
+    this.orderByClause = builder.toString();
+    }
+    return this;
+    }
+
+    public $baseExampleName addStringCondition(String condition){
+    if(currentCriteria == null){
+    newCriteria();
+    }
+    this.currentCriteria.addCondition(condition);
+    return this;
+    }
+
+    public $baseExampleName addStringCondition(String condition, Object value){
+    if(currentCriteria == null){
+    newCriteria();
+    }
+    this.currentCriteria.addCondition(condition, value);
+    return this;
+    }
+
+    public $baseExampleName addStringCondition(String condition, Object firstValue, Object secondValue){
+    if(currentCriteria == null){
+    newCriteria();
+    }
+    this.currentCriteria.addCondition(condition, firstValue, secondValue);
+    return this;
+    }
+
+    #if($selectSelective && $useExample)
+        /**
+        * 添加选择列名，如果为null默认选择所有
+        * @param columns
+        * @return
+        */
+        public $baseExampleName addSelectColumn(String... columns){
+        if(selectColumns == null){
+        this.selectColumns = new LinkedList<>();
+        }
+        for (int i = 0; i < columns.length; i++) {
+        selectColumns.add(columns[i]);
+        }
+        return this;
+        }
+
+    #end
+
+
+    protected class Criteria {
+    protected List<Condition> conditions;
+
+        public boolean isValid() {
+        return conditions.size() > 0;
+        }
+
+        public Criteria() {
+        this.conditions = new LinkedList<>();
+        }
+
+        public void setConditions(List<Condition> conditions) {
+            this.conditions = conditions;
+            }
+
+            public void getConditions(List<Condition> conditions) {
+                this.conditions = conditions;
+                }
+
+                protected void addCondition(String condition){
+                if(condition == null){
+                throw new IllegalArgumentException("condition can't be null");
+                }
+                this.conditions.add(new Condition(condition));
+                }
+
+                protected void addCondition(String condition, Object value, String typeHandler) {
+                if (value == null) {
+                throw new IllegalArgumentException("value can't be null");
+                }
+                this.conditions.add(new Condition(condition, value, typeHandler));
+                }
+
+                protected void addCondition(String condition, Object value) {
+                if (value == null) {
+                throw new IllegalArgumentException("value can't be null");
+                }
+                this.conditions.add(new Condition(condition, value));
+                }
+
+                protected void addCondition(String condition, Object firstValue, Object secondValue, String typeHandler) {
+                if (firstValue == null || secondValue == null) {
+                throw new IllegalArgumentException("value can't be null");
+                }
+                this.conditions.add(new Condition(condition, firstValue, secondValue, typeHandler));
+                }
+
+                protected void addCondition(String condition, Object firstValue, Object secondValue) {
+                if (firstValue == null || secondValue == null) {
+                throw new IllegalArgumentException("value can't be null");
+                }
+                this.conditions.add(new Condition(condition, firstValue, secondValue));
+                }
+
+                @Override
+                public String toString() {
+                return "Criteria{" +
+                "conditions=" + conditions +
+                '}';
+                }
+                }
+
+                protected static class Condition {
+                protected static int NO_VALUE = 0;
+                protected static int SINGLE_VALUE = 1;
+                protected static int DOUBLE_VALUE = 2;
+                protected static int LIST_VALUE = 3;
+                /**
+                * where条件
+                */
+                private final String condition;
+                /**
+                * 第一个值
+                */
+                private Object value;
+                /**
+                * 第二个值
+                */
+                private Object secondValue;
+                /**
+                * 类型转换器
+                */
+                private final String typeHandler;
+                private final int initMode;
+
+                protected Condition(String condition) {
+                this.condition = condition;
+                this.typeHandler = null;
+                this.initMode = NO_VALUE;
+                }
+
+                protected Condition(String condition, Object value, String typeHandler) {
+                this.condition = condition;
+                this.value = value;
+                this.typeHandler = typeHandler;
+                if (value instanceof List<?>) {
+                this.initMode = LIST_VALUE;
+                } else {
+                this.initMode = SINGLE_VALUE;
+                }
+                }
+
+                protected Condition(String condition, Object value) {
+                this(condition, value, null);
+                }
+
+                protected Condition(String condition, Object value, Object secondValue, String typeHandler) {
+                this.condition = condition;
+                this.value = value;
+                this.secondValue = secondValue;
+                this.typeHandler = typeHandler;
+                this.initMode = DOUBLE_VALUE;
+                }
+
+                protected Condition(String condition, Object value, Object secondValue) {
+                this(condition, value, secondValue, null);
+                }
+
+                public String getCondition() {
+                return condition;
+                }
+
+                public Object getValue() {
+                return value;
+                }
+
+                public Object getSecondValue() {
+                return secondValue;
+                }
+
+                public String getTypeHandler() {
+                return typeHandler;
+                }
+
+                public int getInitMode() {
+                return initMode;
+                }
+
+                @Override
+                public String toString() {
+                return "Condition{" +
+                "condition='" + condition + '\'' +
+                ", value=" + value +
+                ", secondValue=" + secondValue +
+                ", typeHandler='" + typeHandler + '\'' +
+                ", initMode=" + initMode +
+                '}';
+                }
+                }
+
+                public String getOrderByClause() {
+                return orderByClause;
+                }
+
+                public List<Criteria> getCriterias() {
+                    return criterias;
+                    }
+
+                    public Criteria getCurrentCriteria() {
+                    return currentCriteria;
+                    }
+
+                    public boolean isDistinct() {
+                    return distinct;
+                    }
+
+                    public Integer getLimit() {
+                    return limit;
+                    }
+
+                    public Long getOffset() {
+                    return offset;
+                    }
+
+
+                    public boolean isDesc() {
+                    return desc;
+                    }
+                    }

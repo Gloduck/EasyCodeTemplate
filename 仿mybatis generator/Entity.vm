@@ -1,0 +1,39 @@
+##引入宏定义
+$!define
+$!config
+
+$!callback.setFileName($tool.append($!tableInfo.name,".java"))
+$!callback.setSavePath($entityPath)
+#setPackageSuffix($entityPackage)
+
+$!autoImport
+import java.io.Serializable;
+#if($useLombok)
+import lombok.*;
+#end
+
+#tableComment("实体类")
+
+#if($useLombok)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+#end
+public class $!{tableInfo.name} implements Serializable {
+private static final long serialVersionUID = $!tool.serial();
+#foreach($column in $tableInfo.fullColumn)
+    #if(${column.comment})/**
+    * ${column.comment}
+    */#end
+
+private $!{tool.getClsNameByFullName($column.type)} $!{column.name};
+#end
+#if($useGetterSetter)
+    #foreach($column in $tableInfo.fullColumn)
+        ##使用宏定义实现get,set方法
+        #getSetMethod($column)
+    #end
+#end
+
+
+}
