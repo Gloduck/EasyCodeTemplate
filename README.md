@@ -5,4 +5,4 @@
 # 收录
 + 仿mybatis generator
   + 作者：Gloduck
-  + 说明：[文档](./仿mybatis generator/说明.md)
+  + 说明：[文档](https://github.com/Gloduck/EasyCodeTemplate/blob/main/%E4%BB%BFmybatis%20generator/%E8%AF%B4%E6%98%8E.md)
