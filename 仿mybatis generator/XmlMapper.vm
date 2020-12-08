@@ -373,7 +373,7 @@ $!callback.setSavePath($tool.append($modulePath, "/src/main/resources/",$mapperX
             <include refid="All_Columns" />
             from `$!{tableInfo.obj.name}`
             where $!pk.obj.name >=
-            (select $!pk.obj.name from `$!{tableInfo.obj.name}` limit ${offset}, 1)
+            (select $!pk.obj.name from `$!{tableInfo.obj.name}` order by $!pk.obj.name limit ${offset}, 1)
             limit ${limit}
         </select>
     #end
