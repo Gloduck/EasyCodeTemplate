@@ -22,7 +22,7 @@ private final $baseExampleName example = this;
 */
 @Override
 public $exampleName newCriteria() {
-   return ($exampleName) super.newCriteria();
+return ($exampleName) super.newCriteria();
 }
 
 /**
@@ -43,7 +43,7 @@ return ($exampleName) super.newCriteria();
 */
 @Override
 public $exampleName setLimit(Integer limit) {
-    return ($exampleName) super.setLimit(limit);
+return ($exampleName) super.setLimit(limit);
 }
 
 /**
@@ -54,7 +54,7 @@ public $exampleName setLimit(Integer limit) {
 */
 @Override
 public $exampleName setOffset(Long offset) {
-    return ($exampleName) super.setOffset(offset);
+return ($exampleName) super.setOffset(offset);
 }
 
 /**
@@ -65,7 +65,7 @@ public $exampleName setOffset(Long offset) {
 */
 @Override
 public $exampleName setDistinct(boolean distinct) {
-    return ($exampleName) super.setDistinct(distinct);
+return ($exampleName) super.setDistinct(distinct);
 }
 
 /**
@@ -76,7 +76,7 @@ public $exampleName setDistinct(boolean distinct) {
 */
 @Override
 public $exampleName setPage(Integer current, Integer perPage){
-    return ($exampleName) super.setPage(current, perPage);
+return ($exampleName) super.setPage(current, perPage);
 }
 
 /**
@@ -85,7 +85,7 @@ public $exampleName setPage(Integer current, Integer perPage){
 */
 @Override
 public $exampleName setOrderByDesc() {
-    return ($exampleName) super.setOrderByDesc();
+return ($exampleName) super.setOrderByDesc();
 }
 
 /**
@@ -95,22 +95,22 @@ public $exampleName setOrderByDesc() {
 */
 @Override
 public $exampleName setOrderByClause(String... clauses) {
-    return ($exampleName) super.setOrderByClause(clauses);
+return ($exampleName) super.setOrderByClause(clauses);
 }
 
 @Override
 public $exampleName addStringCondition(String condition){
-    return ($exampleName) super.addStringCondition(condition);
+return ($exampleName) super.addStringCondition(condition);
 }
 
 @Override
 public $exampleName addStringCondition(String condition, Object value){
-    return ($exampleName) super.addStringCondition(condition, value);
+return ($exampleName) super.addStringCondition(condition, value);
 }
 
 @Override
 public $exampleName addStringCondition(String condition, Object firstValue, Object secondValue){
-    return ($exampleName) super.addStringCondition(condition, firstValue, secondValue);
+return ($exampleName) super.addStringCondition(condition, firstValue, secondValue);
 }
 
 #if($selectSelective && $useExample)
@@ -121,7 +121,7 @@ public $exampleName addStringCondition(String condition, Object firstValue, Obje
 */
 @Override
 public $exampleName addSelectColumn(String... columns){
-    return ($exampleName) super.addSelectColumn(columns);
+return ($exampleName) super.addSelectColumn(columns);
 }
 
 #end
@@ -135,72 +135,72 @@ public $exampleName addSelectColumn(String... columns){
 #foreach($column in $tableInfo.fullColumn)
 
 public $exampleName and$tool.firstUpperCase($column.name)IsNull() {
-addStringCondition("$column.name is null");
+addStringCondition("$column.obj.name is null");
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)IsNotNull() {
-addStringCondition("$column.name is not null");
+addStringCondition("$column.obj.name is not null");
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)EqualTo($column.shortType value){
-addStringCondition("$column.name = ", value);
+addStringCondition("$column.obj.name = ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)NotEqualTo($column.shortType value){
-addStringCondition("$column.name <> ", value);
+addStringCondition("$column.obj.name <> ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)BiggerThan($column.shortType value){
-addStringCondition("$column.name > ", value);
+addStringCondition("$column.obj.name > ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)BiggerThanOrEqualTo($column.shortType value){
-addStringCondition("$column.name >= ", value);
+addStringCondition("$column.obj.name >= ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)SmallerThan($column.shortType value){
-addStringCondition("$column.name < ", value);
+addStringCondition("$column.obj.name < ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)SmallerThanOrEqualTo($column.shortType value){
-addStringCondition("$column.name <= ", value);
+addStringCondition("$column.obj.name <= ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)In(List<$column.shortType> values){
-addStringCondition("$column.name in ", values);
+addStringCondition("$column.obj.name in ", values);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)NotIn(List<$column.shortType> values){
-addStringCondition("$column.name not in ", values);
+addStringCondition("$column.obj.name not in ", values);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)Like($column.shortType value){
-addStringCondition("$column.name like ", value);
+addStringCondition("$column.obj.name like ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)NotLike($column.shortType value){
-addStringCondition("$column.name not like ", value);
+addStringCondition("$column.obj.name not like ", value);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)Between($column.shortType value1, $column.shortType value2){
-addStringCondition("$column.name between ", value1, value2);
+addStringCondition("$column.obj.name between ", value1, value2);
 return this;
 }
 
 public $exampleName and$tool.firstUpperCase($column.name)NotBetween($column.shortType value1, $column.shortType value2){
-addStringCondition("$column.name not between ", value1, value2);
+addStringCondition("$column.obj.name not between ", value1, value2);
 return this;
 }
 #end
